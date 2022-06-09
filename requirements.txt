@@ -1,0 +1,22 @@
+click
+google-api-core
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-cloud-bigquery
+google-cloud-core
+google-cloud-storage
+google-cloud-videointelligence
+google-cloud-vision
+oauth2client
+oauthlib
+requests
+requests-oauthlib
+python-dateutil
+google-cloud-language[libcst]
+
+# no need because of stopping using Functions v2 functions-framework==3.0.0
+gunicorn
+flask
+
+google-cloud-pubsub

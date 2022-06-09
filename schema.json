@@ -1,0 +1,79 @@
+[
+    {
+        "name": "created_date",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED"
+    },
+    {
+        "name": "text",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "user_id",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "user_name",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "user_screen_name",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "retweet_count",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "lang",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "time_zone",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "followers_count",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "favourites_count",
+        "type": "INTEGER",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "friends_count",
+        "type": "STRING",
+        "mode": "NULLABLE"
+    },
+    {
+        "name": "google",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "fields": [
+            {
+                "name": "magnitude",
+                "type": "FLOAT",
+                "mode": "NULLABLE"
+            },
+            {
+                "name": "score",
+                "type": "FLOAT",
+                "mode": "NULLABLE"
+            }
+        ]
+    }
+]
