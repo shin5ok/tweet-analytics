@@ -5,7 +5,7 @@ import click
 from requests_oauthlib import OAuth1Session
 import mytweet
 import uuid
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import urllib
 from google.cloud import pubsub_v1
 import myutils
@@ -26,6 +26,7 @@ TOPIC = e.get("TOPIC")
 URL = "https://api.twitter.com/1.1/search/tweets.json"
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(GOOGLE_CLOUD_PROJECT, TOPIC)
@@ -35,26 +36,27 @@ topic_path = publisher.topic_path(GOOGLE_CLOUD_PROJECT, TOPIC)
 @click.option("-w", "--word", required=True)
 @click.option("-c", "--count", default=1)
 def _cmd(word, count):
-    print(word, count)
+    print(f"word:{word}, count:{count}")
     _process(word, count)
 
 @app.route("/tweet", methods=['POST'])
 def main():
     word = ""
     try:
-        word = request.form.get("word")
-        print(word)
-        if not word:
+        posted = request.get_json()
+        if not "word" in posted:
             word = WORD
+        else:
+            word = posted['word']
     except:
         pass
+    print("Processing word is " + word)
+    _process(word, COUNT)
+    return jsonify({"word":word}), 200
 
-    filename = _process(word, COUNT)
-    return {"word":word, "filename":filename}
 
-
-def _process(keyword, count):
-    keyword = keyword + str(" -filter:retweets")
+def _process(org_keyword, count):
+    keyword = org_keyword + str(" -filter:retweets")
 
     twitter = OAuth1Session(CK, CS, AT, ATS)
 
@@ -82,18 +84,16 @@ def _process(keyword, count):
                 tweet["google"]["magnitude"] = nl_response.magnitude
                 tweet["google"]["score"] = nl_response.score
 
-            # results.append(json.dumps(tweet))
             _pub(json.dumps(tweet))
 
     else:
         print(f"ERROR: {res.status_code}")
 
-    return ""
+    return org_keyword
 
 def _pub(data: str) -> None:
     try:
         send_data: bytes = data.encode("utf-8")
-        print(send_data)
         future = publisher.publish(
             topic_path, send_data,
         )
