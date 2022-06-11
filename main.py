@@ -6,7 +6,6 @@ from requests_oauthlib import OAuth1Session
 import mytweet
 import uuid
 from flask import Flask, request, jsonify
-import urllib
 from google.cloud import pubsub_v1
 import myutils
 
